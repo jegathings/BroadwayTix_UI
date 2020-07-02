@@ -36,6 +36,10 @@ const App = (props) => {
     },[]);
 
     const handleStreetTeamPurchase = async (data) => {
+        for(let index=0;index<100;index++){
+            console.log("Inside response");
+          }
+        
         const response = await fetch(`${STREET_TEAM_PURCHASE}`, {
             method: 'POST',
             headers: {
