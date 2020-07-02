@@ -36,9 +36,17 @@ const App = (props) => {
     },[]);
 
     const handleStreetTeamPurchase = async (data) => {
-        const response = await fetch(`${STREET_TEAM_PURCHASE}`);
-        let responseJson = await response.json();  
-        console.log("Response", responseJson);
+        const response = await fetch(`${STREET_TEAM_PURCHASE}`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        }).
+        catch((err) => {
+            console.log(err);
+        }); 
+        console.log("Response", resonse);
     }
 
     const handleSelect = async (bookmark) =>{
