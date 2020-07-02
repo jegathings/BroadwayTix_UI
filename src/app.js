@@ -37,15 +37,6 @@ const App = (props) => {
 
     const handleStreetTeamPurchase = async (data) => {
         console.log("Data", data);
-        data = {
-            "first_name":"Rick",
-            "last_name":"James",
-            "email":"rick@gmail.com",
-            "broadway_role":"customer",
-            "number_of_tickets":"100",
-            "show_id":"0b7f9673-6b4d-44a8-bb3b-0d07489af44a"
-        };
-        
         const response = await fetch(`${STREET_TEAM_PURCHASE}`, {
             method: 'POST',
             headers: {
@@ -98,7 +89,7 @@ const App = (props) => {
 
     return (
         <>
-            <Form handleSubmit={handleStreetTeamPurchase}></Form>
+            <Form formData={{first_name:"",last_name:"",email:"",broadway_role:"",number_of_tickets:"",show_id:"",formTitle:"Create New Recipe"}} handleSubmit={handleStreetTeamPurchase}></Form>
         </>
     );
 };

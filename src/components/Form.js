@@ -20,7 +20,7 @@ export default (props) => {
                     type="text"
                     name="first_name"
                     id="first_name"
-                    value="James"
+                    value={formData.first_name}
                     onChange={handleChange}
                     /><br/>
                     <label htmlFor="last_name">Last Name</label><br/>
@@ -28,26 +28,26 @@ export default (props) => {
                     type="text"
                     name="last_name"
                     id="last_name"
-                    value="Gathings"
+                    value={formData.last_name}
                     onChange={handleChange}
                     /><br/>
                     <label htmlFor="email">Email</label><br/>
                     <input
                     name="email"
-                    value="jegathings@gmail.com"
+                    value={formData.email}
                     onChange={handleChange}
                     /><br/>
                     <label htmlFor="number_of_tickets">Number Of Tickets</label><br/>
                     <input
                     name="number_of_tickets"
-                    value="1"
+                    value={formData.number_of_tickets}
                     onChange={handleChange}
                     /><br/>
                     <label htmlFor="show_id">Show Id</label><br/>
                     <input
                     type="text"
                     name="show_id"
-                    value="0b7f9673-6b4d-44a8-bb3b-0d07489af44a"
+                    value={formData.show_id}
                     onChange={handleChange}
                     /><br/>
                     <button
