@@ -46,7 +46,7 @@ const App = (props) => {
         catch((err) => {
             console.log(err);
         }); 
-        console.log("Response", resonse);
+        console.log("Response", response);
     }
 
     const handleSelect = async (bookmark) =>{
