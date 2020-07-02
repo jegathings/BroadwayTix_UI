@@ -42,10 +42,10 @@ const App = (props) => {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify(data),
-        }).
-        catch((err) => {
-            console.log(err);
-        }); 
+        })
+        .then(response => response.text())
+        .then(contents => console.log(contents))
+        .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))        
         console.log("Response", response);
     }
 
