@@ -2,41 +2,17 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/style.scss';
 import Form from './components/Form';
-import EditForm from './components/EditForm';
-
+import ComedyShow from './components/ComedyShow'
 
 
 const App = (props) => {
     const STREET_TEAM_PURCHASE = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/post"
-    // const addBookmarkPlaceholder = 'Add Bookmark';
-    // const EditBookmarkPlaceholder = 'Edit';
-    const [bookmarks, setBookmarks] = React.useState(null);
-    const [showEditOrCreate, setShowEditOrCreate] = React.useState(false);
-    //This is test code, I used to figure out how react works
-    const [state,setState] = React.useState({hello:'hello world', cheese:'gouda'});
-    //This is test code, I used to figure out how react works
-    const [stat1,setStat1] = React.useState({id:'999999999',title:"blood orange", url:"url"});
-    /////// sets state for editing
-    const [editBookmark, setEditBookmark] = React.useState({
-        id:'',
-        title: '',
-        url: '',
-    });
-    const baseURL = 'https://assembled-bookmarks.herokuapp.com';    
-    const blank = {title:'', url:''};
-    
-    const getInfo = async() =>{
-        const response = await fetch(`${baseURL}/bookmarks/index`);
-        const result = await response.json();
-        setBookmarks(result);
-    }
-
-    React.useEffect(() => {
-        getInfo()
-    },[]);
+    const CREATE_SHOW = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/createShow"
+    const [streetTeam, setStreetTeam] = React.useState(null);
+    const [createShow, setCreateShow] = React.useState(null);
+    const [comics, setComics] = React.useState(null);
 
     const handleStreetTeamPurchase = async (data) => {
-        console.log("Data", data);
         const response = await fetch(`${STREET_TEAM_PURCHASE}`, {
             method: 'POST',
             headers: {
@@ -45,51 +21,46 @@ const App = (props) => {
             body: JSON.stringify(data),
         })
         .then(response => response.text())
-        .then(contents => console.log(contents))
-        .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))        
-        console.log("Response", response);
+        .then(contents => console.log("Contents", contents))
+        .catch((error) => console.log(error))        
     }
 
-    const handleSelect = async (bookmark) =>{
-        setEditBookmark({...editBookmark, id: bookmark._id, title:bookmark.title, url:bookmark.url});
-        // console.log("Edit bookmark", editBookmark);
-        // console.log("Bookmark", bookmark);
-    };
-
-    const handleEdit = async (data) => {
-        const response = await fetch(
-            `${baseURL}/bookmarks/update/${data.id}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            }
-        );
-        //grab the updated list of holidays
-        getInfo();
-        //We do not want to display the edit route after we have competed an edit.
-        //This will toggle back to displaying the create functionality.
-        setShowEditOrCreate(!showEditOrCreate);
-    };
-
-    const handleDelete = async (data) =>{
-        const respone = await fetch(
-            `${baseURL}/bookmarks/delete/${data._id}`,
-            {
-                method: 'DELETE',
-                headers: {'Content-Type': 'application/json',
+    const handleCreateShow = async (data) => {
+        console.log("Start handle create show");
+        const response = await fetch(`${CREATE_SHOW}`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
             },
             body: JSON.stringify(data),
-            }
-        )
-        getInfo();
+        })
+        .then(response => response.text())
+        .then(contents => console.log("Content", contents))
+        .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))        
     }
 
-    return (
+    return (        
         <>
+            <h1>Comedy Ticket Hub</h1>
+        <nav>
+            <button onClick={() => {
+                                    setStreetTeam(true);
+                                    setCreateShow(false);
+            }}>Street Team</button>
+            <button onClick={() => {
+                                    setStreetTeam(false);
+                                    setCreateShow(true);
+            }}>Add Show</button>
+
+        </nav>
+        {
+            streetTeam &&
             <Form formData={{first_name:"",last_name:"",email:"",broadway_role:"",number_of_tickets:"",show_id:"",formTitle:"Create New Recipe"}} handleSubmit={handleStreetTeamPurchase}></Form>
+        }
+        {
+            createShow &&
+            <ComedyShow formData={{email:"",number_of_tickets:"",show_name:"",show_date:"",show_time:"",show_room:"",show_comedians:""}} handleSubmit={handleCreateShow}/>
+        }
         </>
     );
 };
