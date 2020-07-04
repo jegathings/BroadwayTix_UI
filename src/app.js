@@ -1,95 +1,159 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './css/style.scss';
-import Form from './components/Form';
-import EditForm from './components/EditForm';
-
-
+import CreateReservation from './components/CreateReservation';
+import CreateEvent from './components/CreateEvent'
+import Login from './components/Login'
+import ShowResultsCreateEvent from './components/ResultsCreateShow'
+import ShowResultsCreateReservation from './components/ResultsCreateReservation';
 
 const App = (props) => {
     const STREET_TEAM_PURCHASE = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/post"
-    // const addBookmarkPlaceholder = 'Add Bookmark';
-    // const EditBookmarkPlaceholder = 'Edit';
-    const [bookmarks, setBookmarks] = React.useState(null);
-    const [showEditOrCreate, setShowEditOrCreate] = React.useState(false);
-    //This is test code, I used to figure out how react works
-    const [state,setState] = React.useState({hello:'hello world', cheese:'gouda'});
-    //This is test code, I used to figure out how react works
-    const [stat1,setStat1] = React.useState({id:'999999999',title:"blood orange", url:"url"});
-    /////// sets state for editing
-    const [editBookmark, setEditBookmark] = React.useState({
-        id:'',
-        title: '',
-        url: '',
-    });
-    const baseURL = 'https://assembled-bookmarks.herokuapp.com';    
-    const blank = {title:'', url:''};
-    
-    const getInfo = async() =>{
-        const response = await fetch(`${baseURL}/bookmarks/index`);
-        const result = await response.json();
-        setBookmarks(result);
-    }
+    const CREATE_SHOW = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/createShow"
+    const DO_LOGIN = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/login";
+    const SHOW_CREATE_EVENT = "show create an event";
+    const SHOW_CREATE_RESERVATION = "show create reservation";
+    const SHOW_RESULTS_CREATE_RESERVATION = "show results create reservation";
+    const SHOW_RESULTS_CREATE_EVENT = "show results create event";
+    const SHOW_UI = "you're logged in, show ui";
+    const SHOW_LOGIN = "show login";
+    const [showLogin, setShowLogin] = React.useState(true);
+    const [showCreateEventPage, setShowCreateEventPage] = React.useState(false);
+    const [showResultsCreateEvent, setShowResultsCreateEvent] = React.useState(false);
+    const [stateCreateEvent,setStateCreateEvent] = React.useState(null);
+    const [stateCreateReservation, setStateCreateReservation] = React.useState(null);
+    const [showCreateReservationPage, setShowCreateReservationPage] = React.useState(false);
+    const [showResultsCreateReservationPage, setShowResultsCreateReservation] = React.useState(false);
 
-    React.useEffect(() => {
-        getInfo()
-    },[]);
-
-    const handleStreetTeamPurchase = async (data) => {
-        console.log("Data", data);
-        const response = await fetch(`${STREET_TEAM_PURCHASE}`, {
+    const handeleCreateReservation = async (data) => {
+        await fetch(`${STREET_TEAM_PURCHASE}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.text())
-        .then(contents => console.log(contents))
-        .catch(() => console.log("Can’t access " + url + " response. Blocked by browser?"))        
-        console.log("Response", response);
+        .then(response => response.json())
+        .then(reservation => {
+            setStateCreateReservation(reservation);
+            dispatch(SHOW_RESULTS_CREATE_RESERVATION)})
+        .catch((error) => console.log(error))
     }
 
-    const handleSelect = async (bookmark) =>{
-        setEditBookmark({...editBookmark, id: bookmark._id, title:bookmark.title, url:bookmark.url});
-        // console.log("Edit bookmark", editBookmark);
-        // console.log("Bookmark", bookmark);
-    };
-
-    const handleEdit = async (data) => {
-        const response = await fetch(
-            `${baseURL}/bookmarks/update/${data.id}`,
-            {
-                method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify(data),
-            }
-        );
-        //grab the updated list of holidays
-        getInfo();
-        //We do not want to display the edit route after we have competed an edit.
-        //This will toggle back to displaying the create functionality.
-        setShowEditOrCreate(!showEditOrCreate);
-    };
-
-    const handleDelete = async (data) =>{
-        const respone = await fetch(
-            `${baseURL}/bookmarks/delete/${data._id}`,
-            {
-                method: 'DELETE',
-                headers: {'Content-Type': 'application/json',
+    const handleCreateEvent = async (data) => {
+        const response = await fetch(`${CREATE_SHOW}`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
             },
             body: JSON.stringify(data),
-            }
-        )
-        getInfo();
+        })
+        .then(response => response.json())
+        .then(json => {
+            const event = {id:json.id.S,
+                number_of_tickets: json.number_of_tickets.S,
+                show_comedians: json.show_comedians.S,
+                show_date: json.show_date.S,
+                show_time: json.show_time.S,
+                show_name: json.show_name.S
+                }
+            setStateCreateEvent(event)    
+            dispatch(SHOW_RESULTS_CREATE_EVENT);
+        })
+        .catch((error) => console.log(error))
     }
 
+    const handleLogin = async (data) => {
+        await fetch(`${DO_LOGIN}`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(data)})        
+        .then(response => response.text())
+        .then( token => {
+            localStorage.setItem("login_token", token);
+            dispatch(SHOW_UI);})
+        .catch((error) => console.log(error));
+    }
+
+    const dispatch = (showMe) =>{
+        if(showMe === SHOW_RESULTS_CREATE_RESERVATION){
+            setShowCreateEventPage(false);
+            setShowCreateReservationPage(false);
+            setShowLogin(false);
+            setShowResultsCreateEvent(false);
+            setShowResultsCreateReservation(true);
+        }else if(showMe === SHOW_RESULTS_CREATE_EVENT){
+            setShowCreateEventPage(false);
+            setShowCreateReservationPage(false);
+            setShowLogin(false);
+            setShowResultsCreateReservation(false);
+            setShowResultsCreateEvent(true);
+        }else if(showMe === SHOW_UI){
+            setShowCreateEventPage(false);
+            setShowCreateReservationPage(false);
+            setShowLogin(false);
+            setShowResultsCreateEvent(false);
+            setShowResultsCreateReservation(false);
+        }else if(showMe === SHOW_CREATE_RESERVATION){
+            setShowCreateEventPage(false);
+            setShowLogin(false);
+            setShowResultsCreateEvent(false);
+            setShowResultsCreateReservation(false);
+            setShowCreateReservationPage(true);
+        }else if(showMe === SHOW_CREATE_EVENT){
+            setShowLogin(false);
+            setShowResultsCreateEvent(false);
+            setShowResultsCreateReservation(false);
+            setShowCreateReservationPage(false);
+            setShowCreateEventPage(true);
+        }else if(showMe === SHOW_LOGIN){
+            setShowResultsCreateEvent(false);
+            setShowResultsCreateReservation(false);
+            setShowCreateReservationPage(false);
+            setShowCreateEventPage(false);
+            setShowLogin(true);
+        }
+    }
     return (
         <>
-            <Form formData={{first_name:"",last_name:"",email:"",broadway_role:"",number_of_tickets:"",show_id:"",formTitle:"Create New Recipe"}} handleSubmit={handleStreetTeamPurchase}></Form>
+            <h1>Comedy Ticket Hub</h1>
+            {
+                !showLogin &&
+                <nav>
+                    <button onClick={() => {
+                        dispatch(SHOW_CREATE_RESERVATION);
+                    }}>Customer Reservation</button>
+                    <button onClick={() => {
+                        dispatch(SHOW_CREATE_EVENT);
+                    }}>Create Event</button>
+                    <button onClick={() => {
+                        dispatch(SHOW_LOGIN);
+                    }}>Logout</button>
+
+                </nav>
+            }
+            {
+                showLogin && 
+                <Login formData={{ email: "", password: "" }} handleSubmit={handleLogin} />
+            }
+            {
+                showCreateReservationPage && 
+                <CreateReservation formData={{ first_name: "", last_name: "", email: "", broadway_role: "", number_of_tickets: "", show_id: "", formTitle: "Buy Ticket" }} handleSubmit={handeleCreateReservation}/>
+            }
+            {
+                showResultsCreateReservationPage &&
+                <ShowResultsCreateEvent formData={{...stateCreateReservation}}/>
+            }
+            {
+                showCreateEventPage && 
+                <CreateEvent formData={{ email: "", number_of_tickets: "", show_name: "", show_date: "", show_time: "", show_room: "", show_comedians: "" }} handleSubmit={handleCreateEvent} />
+            }
+            {
+                showResultsCreateEvent &&
+                <ShowResultsCreateEvent formData={{...stateCreateEvent}}/>
+            }
         </>
     );
 };
