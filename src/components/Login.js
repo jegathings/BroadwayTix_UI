@@ -3,6 +3,10 @@ import React from 'react';
 export default (props) => {
     const [formData, setFormData] = React.useState(props.formData);
 
+    React.useEffect(()=> {
+        localStorage.removeItem("login_token");
+    },[]);
+    
     React.useEffect(() => {
         setFormData(props.formData);
     }, [props.formData]);
