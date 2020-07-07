@@ -39,10 +39,11 @@ const App = (props) => {
         })
             .then(response => response.json())
             .then(user => {
+                console.log("Response", user);
                 console.log("Create User", user);
+                handleLogin({username:user.email, password:user.password});
             })
             .catch((error) => console.log(error));
-        await dispatch(SHOW_LOGIN)
         console.log("end handle create user");
     }
     const handeleCreateReservation = async (data) => {
@@ -59,7 +60,7 @@ const App = (props) => {
                 setStateCreateReservation(reservation);
             })
             .catch((error) => console.log(error))
-        await dispatch(SHOW_RESULTS_CREATE_RESERVATION);
+        dispatch(SHOW_RESULTS_CREATE_RESERVATION);
         console.log("end handle create reservation");
     }
 
@@ -83,9 +84,9 @@ const App = (props) => {
                     show_name: json.show_name.S
                 }
                 setStateCreateEvent(event)
+                dispatch(SHOW_RESULTS_CREATE_EVENT);
             })
             .catch((error) => console.log(error))
-        await dispatch(SHOW_RESULTS_CREATE_EVENT);
         console.log("end handle create event");
     }
 
@@ -115,12 +116,12 @@ const App = (props) => {
             });
         console.log("start handleLogin");
     }
-    const setShowCreateUser = async (data) => {
+    const setShowCreateUser = (data) => {
         console.log("start setShowCreateUser");
-        await dispatch(SHOW_CREATE_CUSTOMER);
+        dispatch(SHOW_CREATE_CUSTOMER);
         console.log("end setShowCreateUser");
     }
-    const dispatch = async (showMe) => {
+    const dispatch = (showMe) => {
         console.log("Start Show Me ", showMe);
         setShowCreateEventPage(false);
         setShowCreateReservationPage(false);
