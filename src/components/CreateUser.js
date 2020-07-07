@@ -2,9 +2,13 @@ import React from 'react';
 
 export default (props) => {
     const [formData, setFormData] = React.useState(props.formData);
+    const [invalidLogin, setInvalidLogin] = React.useState(false);
 
     React.useEffect(()=> {
-        localStorage.removeItem("login_token");
+        const token = localStorage.getItem("login_token");
+        if(token && token.indexOf(token.indexOf("Invalid") === -1)) {
+            setInvalidLogin(true);
+        }
     },[]);
     
     React.useEffect(() => {
@@ -18,6 +22,12 @@ export default (props) => {
             <div >
                 <h1>Create User</h1>
             </div>
+            {
+                invalidLogin &&
+                <>
+                    <div className="invalidLogin">You have entered an invalid login.  Please register.</div>
+                </>
+            }
             <div>
                 <div>
                     <label htmlFor="First Name">First Name</label>

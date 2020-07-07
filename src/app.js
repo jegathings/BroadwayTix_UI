@@ -22,7 +22,7 @@ const App = (props) => {
     const [showLogin, setShowLogin] = React.useState(true);
     const [showCreateEventPage, setShowCreateEventPage] = React.useState(false);
     const [showResultsCreateEvent, setShowResultsCreateEvent] = React.useState(false);
-    const [stateCreateEvent,setStateCreateEvent] = React.useState(null);
+    const [stateCreateEvent, setStateCreateEvent] = React.useState(null);
     const [stateCreateReservation, setStateCreateReservation] = React.useState(null);
     const [showCreateReservationPage, setShowCreateReservationPage] = React.useState(false);
     const [showResultsCreateReservationPage, setShowResultsCreateReservation] = React.useState(false);
@@ -37,11 +37,11 @@ const App = (props) => {
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.json())
-        .then(user => {
-            console.log("Create User",user);
+            .then(response => response.json())
+            .then(user => {
+                console.log("Create User", user);
             })
-        .catch((error) => console.log(error));
+            .catch((error) => console.log(error));
         await dispatch(SHOW_LOGIN)
         console.log("end handle create user");
     }
@@ -54,11 +54,11 @@ const App = (props) => {
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.json())
-        .then(reservation => {
-            setStateCreateReservation(reservation);
+            .then(response => response.json())
+            .then(reservation => {
+                setStateCreateReservation(reservation);
             })
-        .catch((error) => console.log(error))
+            .catch((error) => console.log(error))
         await dispatch(SHOW_RESULTS_CREATE_RESERVATION);
         console.log("end handle create reservation");
     }
@@ -72,18 +72,19 @@ const App = (props) => {
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.json())
-        .then(json => {
-            const event = {id:json.id.S,
-                number_of_tickets: json.number_of_tickets.S,
-                show_comedians: json.show_comedians.S,
-                show_date: json.show_date.S,
-                show_time: json.show_time.S,
-                show_name: json.show_name.S
+            .then(response => response.json())
+            .then(json => {
+                const event = {
+                    id: json.id.S,
+                    number_of_tickets: json.number_of_tickets.S,
+                    show_comedians: json.show_comedians.S,
+                    show_date: json.show_date.S,
+                    show_time: json.show_time.S,
+                    show_name: json.show_name.S
                 }
-            setStateCreateEvent(event)                
-        })
-        .catch((error) => console.log(error))
+                setStateCreateEvent(event)
+            })
+            .catch((error) => console.log(error))
         await dispatch(SHOW_RESULTS_CREATE_EVENT);
         console.log("end handle create event");
     }
@@ -95,13 +96,23 @@ const App = (props) => {
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify(data)})        
-        .then(response => response.text())
-        .then( token => {
-            localStorage.setItem("login_token", token);
+            body: JSON.stringify(data)
+        })
+            .then(response => response.text())
+            .then(token => {
+                localStorage.setItem("login_token", token);
+                console.log("Token", token);
+                console.log("Token Valid", token.indexOf("Invalid") === -1);
+                if (token.indexOf("Invalid") === -1) {
+                    dispatch(SHOW_UI);
+                } else {
+                    dispatch(SHOW_CREATE_CUSTOMER);
+                }
             })
-        .catch((error) => console.log(error));
-        await dispatch(SHOW_UI);
+            .catch((error) => {
+                console.log("There was a login error.");
+                console.log(error)
+            });
         console.log("start handleLogin");
     }
     const setShowCreateUser = async (data) => {
@@ -109,7 +120,7 @@ const App = (props) => {
         await dispatch(SHOW_CREATE_CUSTOMER);
         console.log("end setShowCreateUser");
     }
-    const dispatch = async (showMe) =>{
+    const dispatch = async (showMe) => {
         console.log("Start Show Me ", showMe);
         setShowCreateEventPage(false);
         setShowCreateReservationPage(false);
@@ -118,26 +129,26 @@ const App = (props) => {
         setShowCreateUserPage(false);
         setShowResultsCreateReservation(false);
 
-        if(showMe === SHOW_RESULTS_CREATE_RESERVATION){
+        if (showMe === SHOW_RESULTS_CREATE_RESERVATION) {
             console.log("Conditional", showMe);
             setShowResultsCreateReservation(true);
-        }else if(showMe === SHOW_RESULTS_CREATE_EVENT){
+        } else if (showMe === SHOW_RESULTS_CREATE_EVENT) {
             console.log("Conditional", showMe);
             setShowResultsCreateEvent(true);
-        }else if(showMe === SHOW_UI){
-        }else if(showMe === SHOW_CREATE_RESERVATION){
+        } else if (showMe === SHOW_UI) {
+        } else if (showMe === SHOW_CREATE_RESERVATION) {
             console.log("Conditional", showMe);
             setShowCreateReservationPage(true);
-        }else if(showMe === SHOW_CREATE_EVENT){
+        } else if (showMe === SHOW_CREATE_EVENT) {
             console.log("Conditional", showMe);
             setShowCreateEventPage(true);
-        }else if(showMe === SHOW_LOGIN){
+        } else if (showMe === SHOW_LOGIN) {
             console.log("Conditional", showMe);
             setShowLogin(true);
-        }else if(showMe === SHOW_CREATE_CUSTOMER){
+        } else if (showMe === SHOW_CREATE_CUSTOMER) {
             console.log("Conditional", showMe);
             console.log("Show create user page.");
-           setShowCreateUserPage(true);   
+            setShowCreateUserPage(true);
         }
         console.log("End Show Me", showMe);
     }
@@ -160,7 +171,7 @@ const App = (props) => {
                 </nav>
             }
             {
-                showLogin && 
+                showLogin &&
                 <>
                     <Login formData={{ email: "", password: "" }} handleSubmit={handleLogin} />
                     <button
@@ -169,24 +180,24 @@ const App = (props) => {
                 </>
             }
             {
-                false &&
-                <CreateUser formData={{}} handleSubmit={handleCreateUser}/>
+                showCreateUserPage &&
+                <CreateUser formData={{}} handleSubmit={handleCreateUser} />
             }
             {
-                showCreateReservationPage && 
-                <CreateReservation formData={{ first_name: "", last_name: "", email: "", broadway_role: "", number_of_tickets: "", show_id: "", formTitle: "Buy Ticket" }} handleSubmit={handeleCreateReservation}/>
+                showCreateReservationPage &&
+                <CreateReservation formData={{ first_name: "", last_name: "", email: "", broadway_role: "", number_of_tickets: "", show_id: "", formTitle: "Buy Ticket" }} handleSubmit={handeleCreateReservation} />
             }
             {
                 showResultsCreateReservationPage &&
-                <ShowResultsCreateEvent formData={{...stateCreateReservation}}/>
+                <ShowResultsCreateEvent formData={{ ...stateCreateReservation }} />
             }
             {
-                showCreateEventPage && 
+                showCreateEventPage &&
                 <CreateEvent formData={{ email: "", number_of_tickets: "", show_name: "", show_date: "", show_time: "", show_room: "", show_comedians: "" }} handleSubmit={handleCreateEvent} />
             }
             {
                 showResultsCreateEvent &&
-                <ShowResultsCreateEvent formData={{...stateCreateEvent}}/>
+                <ShowResultsCreateEvent formData={{ ...stateCreateEvent }} />
             }
         </>
     );
