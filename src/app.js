@@ -5,116 +5,153 @@ import CreateReservation from './components/CreateReservation';
 import CreateEvent from './components/CreateEvent'
 import Login from './components/Login'
 import ShowResultsCreateEvent from './components/ResultsCreateShow'
-import ShowResultsCreateReservation from './components/ResultsCreateReservation';
+import CreateUser from './components/CreateUser'
 
 const App = (props) => {
-    const STREET_TEAM_PURCHASE = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/post"
-    const CREATE_SHOW = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/createShow"
-    const DO_LOGIN = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/login";
+    const CREATE_RESERVATION = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/post"
+    const CREATE_SHOW_URL = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/createShow"
+    const LOGIN_URL = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/login";
+    const CREATE_NEW_USER = "https://4o319y7qe2.execute-api.us-east-1.amazonaws.com/dev/createUser";
     const SHOW_CREATE_EVENT = "show create an event";
     const SHOW_CREATE_RESERVATION = "show create reservation";
     const SHOW_RESULTS_CREATE_RESERVATION = "show results create reservation";
     const SHOW_RESULTS_CREATE_EVENT = "show results create event";
     const SHOW_UI = "you're logged in, show ui";
     const SHOW_LOGIN = "show login";
+    const SHOW_CREATE_CUSTOMER = "show create customer";
     const [showLogin, setShowLogin] = React.useState(true);
     const [showCreateEventPage, setShowCreateEventPage] = React.useState(false);
     const [showResultsCreateEvent, setShowResultsCreateEvent] = React.useState(false);
-    const [stateCreateEvent,setStateCreateEvent] = React.useState(null);
+    const [stateCreateEvent, setStateCreateEvent] = React.useState(null);
     const [stateCreateReservation, setStateCreateReservation] = React.useState(null);
     const [showCreateReservationPage, setShowCreateReservationPage] = React.useState(false);
     const [showResultsCreateReservationPage, setShowResultsCreateReservation] = React.useState(false);
+    const [showCreateUserPage, setShowCreateUserPage] = React.useState(false);
 
-    const handeleCreateReservation = async (data) => {
-        await fetch(`${STREET_TEAM_PURCHASE}`, {
+    const handleCreateUser = async (data) => {
+        console.log("start handle create user");
+        await fetch(`${CREATE_NEW_USER}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.json())
-        .then(reservation => {
-            setStateCreateReservation(reservation);
-            dispatch(SHOW_RESULTS_CREATE_RESERVATION)})
-        .catch((error) => console.log(error))
+            .then(response => response.json())
+            .then(user => {
+                console.log("Response", user);
+                console.log("Create User", user);
+                handleLogin({username:user.email, password:user.password});
+            })
+            .catch((error) => console.log(error));
+        console.log("end handle create user");
+    }
+    const handeleCreateReservation = async (data) => {
+        console.log("start handle create reservation");
+        await fetch(`${CREATE_RESERVATION}`, {
+            method: 'POST',
+            headers: {
+                'Content-type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+            .then(response => response.json())
+            .then(reservation => {
+                setStateCreateReservation(reservation);
+            })
+            .catch((error) => console.log(error))
+        dispatch(SHOW_RESULTS_CREATE_RESERVATION);
+        console.log("end handle create reservation");
     }
 
     const handleCreateEvent = async (data) => {
-        const response = await fetch(`${CREATE_SHOW}`, {
+        console.log("start handle create event");
+        await fetch(`${CREATE_SHOW_URL}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
             },
             body: JSON.stringify(data),
         })
-        .then(response => response.json())
-        .then(json => {
-            const event = {id:json.id.S,
-                number_of_tickets: json.number_of_tickets.S,
-                show_comedians: json.show_comedians.S,
-                show_date: json.show_date.S,
-                show_time: json.show_time.S,
-                show_name: json.show_name.S
+            .then(response => response.json())
+            .then(json => {
+                const event = {
+                    id: json.id.S,
+                    number_of_tickets: json.number_of_tickets.S,
+                    show_comedians: json.show_comedians.S,
+                    show_date: json.show_date.S,
+                    show_time: json.show_time.S,
+                    show_name: json.show_name.S
                 }
-            setStateCreateEvent(event)    
-            dispatch(SHOW_RESULTS_CREATE_EVENT);
-        })
-        .catch((error) => console.log(error))
+                setStateCreateEvent(event)
+                dispatch(SHOW_RESULTS_CREATE_EVENT);
+            })
+            .catch((error) => console.log(error))
+        console.log("end handle create event");
     }
 
     const handleLogin = async (data) => {
-        await fetch(`${DO_LOGIN}`, {
+        console.log("start handleLogin");
+        await fetch(`${LOGIN_URL}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify(data)})        
-        .then(response => response.text())
-        .then( token => {
-            localStorage.setItem("login_token", token);
-            dispatch(SHOW_UI);})
-        .catch((error) => console.log(error));
+            body: JSON.stringify(data)
+        })
+            .then(response => response.text())
+            .then(token => {
+                localStorage.setItem("login_token", token);
+                console.log("Token", token);
+                console.log("Token Valid", token.indexOf("Invalid") === -1);
+                if (token.indexOf("Invalid") === -1) {
+                    dispatch(SHOW_UI);
+                } else {
+                    dispatch(SHOW_CREATE_CUSTOMER);
+                }
+            })
+            .catch((error) => {
+                console.log("There was a login error.");
+                console.log(error)
+            });
+        console.log("start handleLogin");
     }
+    const setShowCreateUser = (data) => {
+        console.log("start setShowCreateUser");
+        dispatch(SHOW_CREATE_CUSTOMER);
+        console.log("end setShowCreateUser");
+    }
+    const dispatch = (showMe) => {
+        console.log("Start Show Me ", showMe);
+        setShowCreateEventPage(false);
+        setShowCreateReservationPage(false);
+        setShowLogin(false);
+        setShowResultsCreateEvent(false);
+        setShowCreateUserPage(false);
+        setShowResultsCreateReservation(false);
 
-    const dispatch = (showMe) =>{
-        if(showMe === SHOW_RESULTS_CREATE_RESERVATION){
-            setShowCreateEventPage(false);
-            setShowCreateReservationPage(false);
-            setShowLogin(false);
-            setShowResultsCreateEvent(false);
+        if (showMe === SHOW_RESULTS_CREATE_RESERVATION) {
+            console.log("Conditional", showMe);
             setShowResultsCreateReservation(true);
-        }else if(showMe === SHOW_RESULTS_CREATE_EVENT){
-            setShowCreateEventPage(false);
-            setShowCreateReservationPage(false);
-            setShowLogin(false);
-            setShowResultsCreateReservation(false);
+        } else if (showMe === SHOW_RESULTS_CREATE_EVENT) {
+            console.log("Conditional", showMe);
             setShowResultsCreateEvent(true);
-        }else if(showMe === SHOW_UI){
-            setShowCreateEventPage(false);
-            setShowCreateReservationPage(false);
-            setShowLogin(false);
-            setShowResultsCreateEvent(false);
-            setShowResultsCreateReservation(false);
-        }else if(showMe === SHOW_CREATE_RESERVATION){
-            setShowCreateEventPage(false);
-            setShowLogin(false);
-            setShowResultsCreateEvent(false);
-            setShowResultsCreateReservation(false);
+        } else if (showMe === SHOW_UI) {
+        } else if (showMe === SHOW_CREATE_RESERVATION) {
+            console.log("Conditional", showMe);
             setShowCreateReservationPage(true);
-        }else if(showMe === SHOW_CREATE_EVENT){
-            setShowLogin(false);
-            setShowResultsCreateEvent(false);
-            setShowResultsCreateReservation(false);
-            setShowCreateReservationPage(false);
+        } else if (showMe === SHOW_CREATE_EVENT) {
+            console.log("Conditional", showMe);
             setShowCreateEventPage(true);
-        }else if(showMe === SHOW_LOGIN){
-            setShowResultsCreateEvent(false);
-            setShowResultsCreateReservation(false);
-            setShowCreateReservationPage(false);
-            setShowCreateEventPage(false);
+        } else if (showMe === SHOW_LOGIN) {
+            console.log("Conditional", showMe);
             setShowLogin(true);
+        } else if (showMe === SHOW_CREATE_CUSTOMER) {
+            console.log("Conditional", showMe);
+            console.log("Show create user page.");
+            setShowCreateUserPage(true);
         }
+        console.log("End Show Me", showMe);
     }
     return (
         <>
@@ -135,24 +172,33 @@ const App = (props) => {
                 </nav>
             }
             {
-                showLogin && 
-                <Login formData={{ email: "", password: "" }} handleSubmit={handleLogin} />
+                showLogin &&
+                <>
+                    <Login formData={{ email: "", password: "" }} handleSubmit={handleLogin} />
+                    <button
+                        onClick={setShowCreateUser}
+                    >New Customer</button>
+                </>
             }
             {
-                showCreateReservationPage && 
-                <CreateReservation formData={{ first_name: "", last_name: "", email: "", broadway_role: "", number_of_tickets: "", show_id: "", formTitle: "Buy Ticket" }} handleSubmit={handeleCreateReservation}/>
+                showCreateUserPage &&
+                <CreateUser formData={{}} handleSubmit={handleCreateUser} />
+            }
+            {
+                showCreateReservationPage &&
+                <CreateReservation formData={{ first_name: "", last_name: "", email: "", broadway_role: "", number_of_tickets: "", show_id: "", formTitle: "Buy Ticket" }} handleSubmit={handeleCreateReservation} />
             }
             {
                 showResultsCreateReservationPage &&
-                <ShowResultsCreateEvent formData={{...stateCreateReservation}}/>
+                <ShowResultsCreateEvent formData={{ ...stateCreateReservation }} />
             }
             {
-                showCreateEventPage && 
+                showCreateEventPage &&
                 <CreateEvent formData={{ email: "", number_of_tickets: "", show_name: "", show_date: "", show_time: "", show_room: "", show_comedians: "" }} handleSubmit={handleCreateEvent} />
             }
             {
                 showResultsCreateEvent &&
-                <ShowResultsCreateEvent formData={{...stateCreateEvent}}/>
+                <ShowResultsCreateEvent formData={{ ...stateCreateEvent }} />
             }
         </>
     );

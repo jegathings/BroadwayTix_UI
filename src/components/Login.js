@@ -2,6 +2,7 @@ import React from 'react';
 
 export default (props) => {
     const [formData, setFormData] = React.useState(props.formData);
+    const [showLogin, setShowLogin] = React.useState(false);
 
     React.useEffect(()=> {
         localStorage.removeItem("login_token");
@@ -36,8 +37,7 @@ export default (props) => {
                         onClick={() => {
                             props.handleSubmit(formData);
                         }}
-                    >&#10004;</button>
-
+                    >Submit</button>
                 </div>
             </div>
         </div>

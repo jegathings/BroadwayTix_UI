@@ -85,7 +85,7 @@ export default (props) => {
                         onClick={() => {
                             props.handleSubmit(formData);
                         }}
-                    >&#10004;</button>
+                    >submit</button>
                 </div>
             </div>
         </>
