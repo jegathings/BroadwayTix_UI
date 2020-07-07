@@ -1,106 +1,177 @@
-:root{
-    --lightTan: #EAE7DC;
-    --tan: #D8C3A5;
-    --brown: #8E8D8A;
-    --red: #E98074;
-    --redRed: #E85A4F;
+body{
+    background-color: rgb(184, 218, 238);
 }
-html{
-    background-color: var(--lightTan);
+.h1_label{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
 }
-.main{
-    text-align: center;
-    background-color: var(--brown);
-    width: 70%;
-    margin: 0 auto;
-    padding: 1rem;
-    border-radius: 10px;
+.results_create_event{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    border-style: solid;
+    border-color: black;
+    width:80%;
+    margin: 20px 60px;
+    border-radius: 25px;
+}
+.results_create_event_row{
+    display:flex;
+    flex-direction: row;
+    justify-content: space-between;
+    // border-style: solid;
+    // border-color:red;
+    width:50%;
+}
+.results_create_event_row_label{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-start;
+    // border-style: solid;
+    // border-color:red;
+}
+.results_create_event_row_value{
+    display:flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    margin: 30px 0px;
+    // border-style: solid;
+    // border-color:black;    
+}
 
-    & h1{
-        margin-top: 1rem;
-        font-size: 3rem;
-    }
-    & h2{
-        margin-bottom: 2rem;
-    }
-    & h3{
-        font-size: 2rem;
-    }
-
-}
-.addForm, .editForm{
-    background-color: rgb(191, 191, 191);
-    width: 80%;
-    margin: 0 auto;
-    border-radius: 10px;
-    padding: .5rem 0;
-    margin-bottom: 2rem;
-    & button:hover{
-        color: var(--red);
-    }
-}
-.form{
+.create_user_input{
     display: flex;
     flex-direction: column;
-    width: 60%;
-    margin: 0 auto
-}
-.form span{
-    font-size: 1.5rem;
-}
-.main-list-btn{
-    background-color: transparent;
-    border: none;
-    font-size: 2rem;
-    margin: 0 .2rem;
-    cursor: pointer;
-}
-.main-list-btn:hover{
-    color: var(--red);
-}
-.main-list-item{
-    & h1{
-        display: inline;
-    }
-    & div{
-        display: inline;
-    }
-}
-.main-list-item{
-    display: flex;
     justify-content: space-between;
-    width: 90%;
-    margin: 1rem auto;
-    padding: .5rem;
-    border-radius: 10px;
+    align-items: center;
 }
-.main-list-item:nth-child(odd){
-    background-color: rgb(191, 191, 191);
+.create_user_input_row{
+    display:flex;
+    flex-direction: row;
 }
-.main-list-item-div-one{
-    display: flex;
-    justify-content: left;
+.create_user_header{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
 }
-.main-list-item-div-two{
-    display: flex;
-    justify-content: right;
+.invalid_login{
+    color:red;
 }
 
-.main{
-    & input{
-        margin: .2rem;
-        font-size: 1.2rem;
-    }
-    & button{
-        font-size: 3rem;
-        background-color: transparent;
-        border: none;
-        cursor: pointer;
-    }
-    & button:hover{
-        color: var(--red);
-    }
+.create_user{
+    display:flex;
+    flex-direction:column;
+    border-style:solid;
+    border-color: black;
 }
-.edit-form{
-    display: none;
+.extra_div{
+    display:flex;
+    flex-direction: row;
+}
+.header{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.create_event_input{
+    width: 100px;
+}
+.create_event_div{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-around;
+    height: 100%;
+    border-style: solid;
+    border-color: black;
+    padding: 10px 10px;
+    margin: 20px 60px;
+    border-radius: 25px;
+}
+.create_reservation_div{
+    display:flex;
+    flex-direction:column;
+    justify-content: space-around;
+    height: 100%;
+    border-style: solid;
+    border-color: black;
+    padding: 10px 10px;
+    margin: 20px 60px;
+    border-radius: 25px;
+}
+.create_reservation_header{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.create_reservation_body{
+    display:flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    border-style: solid;
+    border-color: black;
+    padding: 50px 50px;
+    border-radius: 25px;
+}
+.center_div{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.create_info_div{
+    // border-style: solid;
+    // border-color: blue;
+    width:100%;
+}
+.create_comic_div{
+    // border-style: solid;
+    // border-color: orange;;
+    width:100%;
+}
+.holy-grail {
+	min-height: 100vh;
+}
+.holy-grail,
+.holy-grail-body {
+	display: flex;
+	flex: 1 1 auto;
+	flex-direction: column;
+}
+.holy-grail-content {
+	flex: 1 1 auto;
+}
+.holy-grail-sidebar-1 {
+	order: -1;
+}
+.holy-grail-login{
+    display:flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items:center;
+    height: 100%;
+    border-style: solid;
+    border-color: black;;
+    border-radius: 25px;
+}
+.holy-grail-create-event{
+    border-style: solid;
+    border-color: black;
+}
+@media (min-width: 768px) {
+	/**
+	 * Body items are now side by side
+	 */
+	.holy-grail-body {
+		flex-direction: row;
+	}
+
+	/**
+	 * Sidebars have a basic 260 width
+	 * and are not really flexible anymore
+	 */
+	.hg-sidebar {
+		flex: 0 0 260px;
+    }
 }

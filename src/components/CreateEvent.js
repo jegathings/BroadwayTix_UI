@@ -24,19 +24,22 @@ export default (props) => {
 
     return (
         <>
-            <h3>New Show</h3>
-            <div >
-                <div >
+            <div className="create_event_div">
+            <h3>Create Event</h3>
+            <div className="extra_div">
+                <div className="create_info_div">
                     <label htmlFor="email">Show Creator</label><br />
-                    <input
+                    <input 
                         type="text"
                         name="email"
                         id="email"
+                        width="100%"
+                        size="300px"
                         value={formData.email}
                         onChange={handleChange}
                     /><br />
                     <label htmlFor="number_of_tickets">Number Of Tickets</label><br />
-                    <input
+                    <input className="create_event_input"
                         type="text"
                         name="number_of_tickets"
                         id="number_of_tickets"
@@ -44,30 +47,32 @@ export default (props) => {
                         onChange={handleChange}
                     /><br />
                     <label htmlFor="show_name">Show Name</label><br />
-                    <input
+                    <input className="create_event_input"
                         name="show_name"
                         value={formData.show_name}
                         onChange={handleChange}
                     /><br />
                     <label htmlFor="show_date">Show Date</label><br />
-                    <input
+                    <input className="create_event_input"
                         name="show_date"
                         value={formData.show_date}
                         onChange={handleChange}
                     /><br />
                     <label htmlFor="show_time">Show Time</label><br />
-                    <input
+                    <input className="create_event_input"
                         type="text"
                         name="show_time"
                         value={formData.show_time}
                         onChange={handleChange}
                     /><br />
+                </div>
+                <div className="create_comic_div">
                     {
                         comics ?
                             comics.map((comic, index) => {
                                 return (
                                     <div key={comic.id.S}>
-                                        <input
+                                        <input className="create_event_input"
                                             type="checkbox"
                                             key={comic.id.S}
                                             id={comic.id.S}
@@ -81,13 +86,15 @@ export default (props) => {
                             :
                             "...Loading"
                     }
-                    <button
+                </div>
+            </div>
+                <button
                         onClick={() => {
                             props.handleSubmit(formData);
                         }}
                     >submit</button>
-                </div>
             </div>
+
         </>
     );
 };
