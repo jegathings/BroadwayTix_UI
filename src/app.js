@@ -35,7 +35,7 @@ const App = (props) => {
         console.log("Token",token);
         console.log("After", showLogin);
         setShowLogin(false);
-        setShowResultsCreateEvent(true);
+        setShowCreateReservationPage(true);
     }, []);
 
     const handleCreateUser = async (data) => {
