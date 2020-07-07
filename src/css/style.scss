@@ -1,6 +1,31 @@
 body{
     background-color: rgb(184, 218, 238);
 }
+.create_user_input{
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+.create_user_input_row{
+    display:flex;
+    flex-direction: row;
+}
+.create_user_header{
+    display:flex;
+    flex-direction: row;
+    justify-content: center;
+}
+.invalid_login{
+    color:red;
+}
+
+.create_user{
+    display:flex;
+    flex-direction:column;
+    border-style:solid;
+    border-color: black;
+}
 .extra_div{
     display:flex;
     flex-direction: row;

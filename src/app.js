@@ -28,6 +28,16 @@ const App = (props) => {
     const [showResultsCreateReservationPage, setShowResultsCreateReservation] = React.useState(false);
     const [showCreateUserPage, setShowCreateUserPage] = React.useState(false);
 
+    //     React.useEffect(() => {
+    //     console.log("Login check is running");
+    //     console.log("Before", showLogin);
+    //     const token = localStorage.getItem("login_token");
+    //     console.log("Token",token);
+    //     console.log("After", showLogin);
+    //     setShowLogin(false);
+    //     setShowCreateUserPage(true);
+    // }, []);
+
     const handleCreateUser = async (data) => {
         console.log("start handle create user");
         await fetch(`${CREATE_NEW_USER}`, {
