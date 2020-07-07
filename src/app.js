@@ -4,7 +4,7 @@ import './css/style.scss';
 import CreateReservation from './components/CreateReservation';
 import CreateEvent from './components/CreateEvent'
 import Login from './components/Login'
-import ShowResultsCreateEvent from './components/ResultsCreateShow'
+import ShowResultsCreateEvent from './components/ResultsCreateEvent'
 import CreateUser from './components/CreateUser'
 
 const App = (props) => {
@@ -28,15 +28,15 @@ const App = (props) => {
     const [showResultsCreateReservationPage, setShowResultsCreateReservation] = React.useState(false);
     const [showCreateUserPage, setShowCreateUserPage] = React.useState(false);
 
-    //     React.useEffect(() => {
-    //     console.log("Login check is running");
-    //     console.log("Before", showLogin);
-    //     const token = localStorage.getItem("login_token");
-    //     console.log("Token",token);
-    //     console.log("After", showLogin);
-    //     setShowLogin(false);
-    //     setShowCreateUserPage(true);
-    // }, []);
+        React.useEffect(() => {
+        console.log("Login check is running");
+        console.log("Before", showLogin);
+        const token = localStorage.getItem("login_token");
+        console.log("Token",token);
+        console.log("After", showLogin);
+        setShowLogin(false);
+        setShowResultsCreateEvent(true);
+    }, []);
 
     const handleCreateUser = async (data) => {
         console.log("start handle create user");
@@ -76,12 +76,22 @@ const App = (props) => {
 
     const handleCreateEvent = async (data) => {
         console.log("start handle create event");
+        console.log("Data", data);
+        console.log("Data 2", {email:data.email,
+            number_of_tickets:data.number_of_tickets,
+            show_name:data.show_name,
+            show_date:data.show_date,
+            show_time:data.show_time});
         await fetch(`${CREATE_SHOW_URL}`, {
             method: 'POST',
             headers: {
                 'Content-type': 'application/json',
             },
-            body: JSON.stringify(data),
+            body: JSON.stringify({email:data.email,
+                                number_of_tickets:data.number_of_tickets,
+                                show_name:data.show_name,
+                                show_date:data.show_date,
+                                show_time:data.show_time}),
         })
             .then(response => response.json())
             .then(json => {

@@ -24,7 +24,7 @@ export default (props) => {
 
     return (
         <>
-            <div className="new_show_civ">
+            <div className="create_event_div">
             <h3>Create Event</h3>
             <div className="extra_div">
                 <div className="create_info_div">
