@@ -41,7 +41,7 @@ const App = (props) => {
             .then(user => {
                 console.log("Response", user);
                 console.log("Create User", user);
-                handleLogin({username:user.email, password:user.password});
+                handleLogin({ username: user.email, password: user.password });
             })
             .catch((error) => console.log(error));
         console.log("end handle create user");
@@ -155,51 +155,60 @@ const App = (props) => {
     }
     return (
         <>
-            <h1>Comedy Ticket Hub</h1>
-            {
-                !showLogin &&
-                <nav>
-                    <button onClick={() => {
-                        dispatch(SHOW_CREATE_RESERVATION);
-                    }}>Customer Reservation</button>
-                    <button onClick={() => {
-                        dispatch(SHOW_CREATE_EVENT);
-                    }}>Create Event</button>
-                    <button onClick={() => {
-                        dispatch(SHOW_LOGIN);
-                    }}>Logout</button>
+            <header className="header">
+                <h1>Comedy Ticket Hub</h1>
+                {
+                    !showLogin &&
+                    <nav>
+                        <button onClick={() => {
+                            dispatch(SHOW_CREATE_RESERVATION);
+                        }}>Customer Reservation</button>
+                        <button onClick={() => {
+                            dispatch(SHOW_CREATE_EVENT);
+                        }}>Create Event</button>
+                        <button onClick={() => {
+                            dispatch(SHOW_LOGIN);
+                        }}>Logout</button>
 
-                </nav>
-            }
-            {
-                showLogin &&
-                <>
-                    <Login formData={{ email: "", password: "" }} handleSubmit={handleLogin} />
-                    <button
-                        onClick={setShowCreateUser}
-                    >New Customer</button>
-                </>
-            }
-            {
-                showCreateUserPage &&
-                <CreateUser formData={{}} handleSubmit={handleCreateUser} />
-            }
-            {
-                showCreateReservationPage &&
-                <CreateReservation formData={{ first_name: "", last_name: "", email: "", broadway_role: "", number_of_tickets: "", show_id: "", formTitle: "Buy Ticket" }} handleSubmit={handeleCreateReservation} />
-            }
-            {
-                showResultsCreateReservationPage &&
-                <ShowResultsCreateEvent formData={{ ...stateCreateReservation }} />
-            }
-            {
-                showCreateEventPage &&
-                <CreateEvent formData={{ email: "", number_of_tickets: "", show_name: "", show_date: "", show_time: "", show_room: "", show_comedians: "" }} handleSubmit={handleCreateEvent} />
-            }
-            {
-                showResultsCreateEvent &&
-                <ShowResultsCreateEvent formData={{ ...stateCreateEvent }} />
-            }
+                    </nav>
+                }
+            </header>
+            <div className="holy-grail-body">
+                <section className="holy-grail-content">
+                    {
+                        showLogin &&
+                        <div className="holy-grail-login">
+
+                            <Login formData={{ email: "", password: "" }} handleSubmit={handleLogin} />
+                            <button
+                                onClick={setShowCreateUser}
+                            >New Customer</button>
+                        </div>
+                    }
+                    {
+                        showCreateUserPage &&
+                        <CreateUser formData={{}} handleSubmit={handleCreateUser} />
+                    }
+                    {
+                        showCreateReservationPage &&
+                        <CreateReservation formData={{ first_name: "", last_name: "", email: "", broadway_role: "", number_of_tickets: "", show_id: "", formTitle: "Buy Ticket" }} handleSubmit={handeleCreateReservation} />
+                    }
+                    {
+                        showResultsCreateReservationPage &&
+                        <ShowResultsCreateEvent formData={{ ...stateCreateReservation }} />
+                    }
+                    {
+                        showCreateEventPage &&
+                        <CreateEvent formData={{ email: "", number_of_tickets: "", show_name: "", show_date: "", show_time: "", show_room: "", show_comedians: "" }} handleSubmit={handleCreateEvent} />
+                    }
+                    {
+                        showResultsCreateEvent &&
+                        <ShowResultsCreateEvent formData={{ ...stateCreateEvent }} />
+                    }
+                </section>
+                <div className="holy-grail-sidebar-1 hg-sidebar" />
+                <div className="holy-grail-sidebar-2 hg-sidebar" />
+            </div>
         </>
     );
 };
