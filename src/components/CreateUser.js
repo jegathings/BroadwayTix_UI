@@ -2,7 +2,6 @@ import React from 'react';
 
 export default (props) => {
     const [formData, setFormData] = React.useState(props.formData);
-    const [showLogin, setShowLogin] = React.useState(false);
 
     React.useEffect(()=> {
         localStorage.removeItem("login_token");
@@ -17,17 +16,29 @@ export default (props) => {
     return (
         <div>
             <div >
-                <h1>Login Page</h1>
+                <h1>Create User</h1>
             </div>
             <div>
                 <div>
-                    <label htmlFor="email">Email</label><br />
+                    <label htmlFor="First Name">First Name</label>
+                    <input
+                        name="first_name"
+                        value={formData.first_name}
+                        onChange={handleChange}
+                        /><br/>
+                    <label htmlFor="last_name">Last Name</label>
+                    <input
+                        name="last_name"
+                        value={formData.last_name}
+                        onChange={handleChange}
+                        /><br/>
+                    <label htmlFor="email">Email</label>
                     <input
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                     /><br />
-                    <label htmlFor="password">Password</label><br/>
+                    <label htmlFor="password">Password</label>
                     <input
                     name="password"
                     value={formData.password}
@@ -37,7 +48,8 @@ export default (props) => {
                         onClick={() => {
                             props.handleSubmit(formData);
                         }}
-                    >Submit</button>
+                    >&#10004;</button>
+
                 </div>
             </div>
         </div>
