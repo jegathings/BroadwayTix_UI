@@ -27,43 +27,40 @@ export default (props) => {
             } */}
             </div>
             <div className="create_user_input">
-                <div className="create_user_input_row">
+                <div className="center_div">
+                <div className="create_reservation_body">
                     <label htmlFor="First Name">First Name</label>
                     <input
                         name="first_name"
                         value={formData.first_name}
                         onChange={handleChange}
                     />
-                </div>
-                <div className="create_user_input_row">
                     <label htmlFor="last_name">Last Name</label>
                     <input
                         name="last_name"
                         value={formData.last_name}
                         onChange={handleChange}
                     />
-                </div>
-                <div className="create_user_input_row">
                     <label htmlFor="email">Email</label>
                     <input
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                     />
-                </div>
-                <div className="create_user_input_row">
                     <label htmlFor="password">Password</label>
                     <input
                         name="password"
+                        type="password"
                         value={formData.password}
                         onChange={handleChange}
                     /><br />
-                </div>
                 <button
                     onClick={() => {
                         props.handleSubmit(formData);
                     }}
                 >submit</button>
+                </div>
+                </div>
             </div>
         </div>
     );

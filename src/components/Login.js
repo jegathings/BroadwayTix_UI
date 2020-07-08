@@ -23,12 +23,14 @@ export default (props) => {
                 <div>
                     <label htmlFor="email">Email</label><br />
                     <input
+                        type="text"
                         name="email"
                         value={formData.email}
                         onChange={handleChange}
                     /><br />
                     <label htmlFor="password">Password</label><br/>
                     <input
+                    type="password"
                     name="password"
                     value={formData.password}
                     onChange={handleChange}
