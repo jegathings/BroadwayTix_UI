@@ -195,11 +195,13 @@ const App = (props) => {
                     {
                         showLogin &&
                         <div className="holy-grail-login">
+                            <div className="login_div">
 
-                            <Login formData={{ email: "", password: "" }} handleSubmit={handleLogin} />
-                            <button
-                                onClick={setShowCreateUser}
-                            >New Customer</button>
+                                <Login formData={{ email: "", password: "" }} handleSubmit={handleLogin} />
+                                <button
+                                    onClick={setShowCreateUser}
+                                 >New Customer</button>
+                            </div>
                         </div>
                     }
                     {

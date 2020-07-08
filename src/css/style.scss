@@ -1,6 +1,13 @@
 body{
     background-color: rgb(184, 218, 238);
 }
+.login_div{
+    display:flex;
+    flex-direction: column;
+}
+.login_button{
+    width: 50%;
+}
 .h1_label{
     display:flex;
     flex-direction: row;
@@ -154,7 +161,7 @@ body{
     align-items:center;
     height: 100%;
     border-style: solid;
-    border-color: black;;
+    border-color:black;
     border-radius: 25px;
 }
 .holy-grail-create-event{
