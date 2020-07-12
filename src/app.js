@@ -28,8 +28,8 @@ const App = (props) => {
     const [showResultsCreateReservationPage, setShowResultsCreateReservation] = React.useState(false);
     const [showCreateUserPage, setShowCreateUserPage] = React.useState(false);
 
-    React.useEffect(() => {
-    }, []);
+    // React.useEffect(() => {
+    // }, []);
 
     const handleCreateUser = async (data) => {
         console.log("start handle create user");
