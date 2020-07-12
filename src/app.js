@@ -94,7 +94,7 @@ const App = (props) => {
             .then(json => {
                 const event = {
                     id: json.id.S,
-                    number_of_tickets: json.number_of_tickets.S,
+                    number_of_tickets: json.number_of_tickets.N,
                     show_comedians: json.show_comedians.S,
                     show_date: json.show_date.S,
                     show_time: json.show_time.S,
