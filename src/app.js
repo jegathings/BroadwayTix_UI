@@ -29,6 +29,7 @@ const App = (props) => {
     const [showCreateUserPage, setShowCreateUserPage] = React.useState(false);
 
     React.useEffect(() => {
+        dispatch(SHOW_CREATE_EVENT)
     }, []);
 
     const handleCreateUser = async (data) => {

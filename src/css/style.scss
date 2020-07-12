@@ -13,6 +13,10 @@ body{
     flex-direction: row;
     justify-content: center;
 }
+.input_create_event{
+    width: 300px;        
+}
+
 .results_create_event{
     display:flex;
     flex-direction: column;
@@ -85,10 +89,13 @@ body{
     justify-content: center;
 }
 .create_event_input{
-    width: 100px;
+    width: 200px;
+    border-style: solid;
+    border-color: black;;
 }
 .create_event_div{
     display:flex;
+    align-items: center;
     flex-direction:column;
     justify-content: space-around;
     height: 100%;
@@ -97,6 +104,9 @@ body{
     padding: 10px 10px;
     margin: 20px 60px;
     border-radius: 25px;
+}
+.comic_checkbox_div{
+    padding: 0px 0px 0px 50px;
 }
 .create_reservation_div{
     display:flex;
@@ -130,13 +140,10 @@ body{
     justify-content: center;
 }
 .create_info_div{
-    // border-style: solid;
-    // border-color: blue;
     width:100%;
+    padding: 100px 50px;
 }
 .create_comic_div{
-    // border-style: solid;
-    // border-color: orange;;
     width:100%;
 }
 .holy-grail {
